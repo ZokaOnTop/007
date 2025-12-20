@@ -1,23 +1,901 @@
-local v0=game:GetService("Players");local v1=game:GetService("UserInputService");local v2=game:GetService("TweenService");local v3=game:GetService("CoreGui");local v4=v0.LocalPlayer;local v5=Enum.KeyCode.KeypadSeven;local v6=false;local v7=game:GetService("RunService");local v8=Enum.KeyCode.P;local v9=false;local v10=false;local v11=false;local v12={};local v13=Color3.fromRGB(0,255,100);local v14=10;local v15=false;local v16=false;local v17=nil;local v18=false;local v19=nil;local v20=false;local v21=game:GetService("Lighting").Ambient;local v22=game:GetService("Lighting").OutdoorAmbient;local v23=false;local v24="          .                                                      .\n"   .. "        .n                   .                 .                  n.\n"   .. "  .   .dP                  dP                   9b                 9b.    .\n"   .. " 4    qXb         .       dX                     Xb       .        dXp     t\n"   .. " dX.    9Xb      .dXb    __                         __    dXb.     dXP     .Xb\n"   .. " 9XXb._       _.dXXXXb dXXXXbo.                 .odXXXXb dXXXXb._       _.dXXP\n"   .. " 9XXXXXXXXXXXXXXXXXXXVXXXXXXXXOo.           .oOXXXXXXXXVXXXXXXXXXXXXXXXXXXXP\n"   .. "  `9XXXXXXXXXXXXXXXXXXXXX'~   ~`OOO8b   d8OOO'~   ~`XXXXXXXXXXXXXXXXXXXXXP'\n"   .. "    `9XXXXXXXXXXXP' `9XX'   DIE    `98v8P'  HUMAN   `XXP' `9XXXXXXXXXXXP'\n"   .. "        ~~~~~~~       9X.          .db|db.          .XP       ~~~~~~~\n"   .. "                        )b.  .dbo.dP'`v'`9b.odb.  .dX(\n"   .. "                      ,dXXXXXXXXXXXb     dXXXXXXXXXXXb.\n"   .. "                     dXXXXXXXXXXXP'   .   `9XXXXXXXXXXXb\n"   .. "                    dXXXXXXXXXXXXb   d|b   dXXXXXXXXXXXXb\n"   .. "                    9XXb'   `XXXXXb.dX|Xb.dXXXXX'   `dXXP\n"   .. "                     `'      9XXXXXX(   )XXXXXXP      `'\n"   .. "                              XXXX X.`v'.X XXXX\n"   .. "                              XP^X'`b   d'`X^XX\n"   .. "                              X. 9  `   '  P )X\n"   .. "                              `b  `       '  d'\n"   .. "                               `             '" ;local v25={IntroAmbience="rbxassetid://90305812327722",Static="rbxassetid://140043289814504",Toggle="rbxassetid://80099403859001",AimbotHub="rbxassetid://110205432201626",IntroExtra="rbxassetid://18379039436",Lagging="rbxassetid://91797564915224"};if v3:FindFirstChild("ZokaLite") then v3.ZokaLite:Destroy();end local v26=Instance.new("ScreenGui");v26.Name="ZokaLite";v26.Parent=v3;v26.IgnoreGuiInset=true;v26.DisplayOrder=999;local function v31(v202,v203,v204) local v205=Instance.new("Sound");v205.SoundId=v202;v205.Volume=v203 or 0.5 ;v205.PlaybackSpeed=v204 or 1 ;v205.Parent=v26;v205:Play();v205.Ended:Connect(function() v205:Destroy();end);task.delay(30,function() if (v205 and v205.Parent) then v205:Destroy();end end);end local function v32(v210) if (v210==v4) then return;end local v211=Instance.new("Folder",v26);v211.Name="ESP_"   .. v210.Name ;local v213=Instance.new("TextLabel",v211);v213.Name="Name";v213.Visible=false;v213.BackgroundTransparency=1;v213.AnchorPoint=Vector2.new(0.5,0.5);v213.Font=Enum.Font.Code;v213.TextColor3=v13;local v221=Instance.new("UIStroke",v213);v221.Thickness=1;v221.Color=Color3.new(0,0,0);v12[v210]={Folder=v211,Label=v213};end local function v33(v225) v9=v225;v31(v25.Static,0.5,(v9 and 1.2) or 0.8 );task.spawn(function() for v396=1,8 do fullScreenGlitch();task.wait(0.02);end end);if  not v9 then for v426,v427 in pairs(v12) do if v427.Label then v427.Label.Visible=false;end local v428=v426.Character;if (v428 and v428:FindFirstChild("ZokaBodyHighlight")) then v428.ZokaBodyHighlight.Enabled=false;end end end end v7.RenderStepped:Connect(function() if  not v9 then return;end local v226=workspace.CurrentCamera;local v227=v4.Character;local v228=v227 and v227:FindFirstChild("HumanoidRootPart") ;for v372,v373 in pairs(v12) do local v374=v372.Character;local v375=v374 and v374:FindFirstChild("HumanoidRootPart") ;local v376=v374 and v374:FindFirstChild("Humanoid") ;if (v375 and v376 and (v376.Health>0)) then local v429,v430=v226:WorldToViewportPoint(v375.Position);if v430 then local v480=v374:FindFirstChild("ZokaBodyHighlight") or Instance.new("Highlight",v374) ;v480.Name="ZokaBodyHighlight";v480.FillColor=v13;v480.OutlineColor=Color3.new(1,1,1);v480.FillTransparency=0.5;v480.Enabled=true;local v486=v372.Name;if v11 then v486=v486   .. "\nHP: "   .. math.floor(v376.Health) ;end if (v10 and v228) then local v504=math.floor((v228.Position-v375.Position).Magnitude);v486=v486   .. "\n["   .. v504   .. "m]" ;end v373.Label.Text=v486;v373.Label.TextColor3=v13;v373.Label.TextSize=v14;v373.Label.Position=UDim2.new(0,v429.X,0,v429.Y-60 );v373.Label.Visible=true;else v373.Label.Visible=false;end else v373.Label.Visible=false;end end end);v0.PlayerAdded:Connect(v32);for v229,v230 in pairs(v0:GetPlayers()) do v32(v230);end local v34=Instance.new("Frame",v26);v34.Name="WatermarkFrame";v34.Size=UDim2.new(0,450,0,40);v34.Position=UDim2.new(1, -460,0,15);v34.BackgroundTransparency=1;local v39=Instance.new("TextButton",v34);v39.Size=UDim2.new(0,20,0,20);v39.Position=UDim2.new(0,0,0.5, -10);v39.BackgroundTransparency=1;v39.Text="[x]";v39.Font=Enum.Font.Code;v39.TextColor3=Color3.fromRGB(150,150,150);v39.TextTransparency=0.5;v39.TextSize=14;v39.MouseButton1Click:Connect(function() v34:Destroy();end);local v49=Instance.new("Frame",v34);v49.Size=UDim2.new(0,110,0,30);v49.Position=UDim2.new(0,30,0.5, -15);v49.BackgroundTransparency=1;v49.ClipsDescendants=false;local v54=Instance.new("TextLabel",v49);v54.Size=UDim2.new(1,0,1,0);v54.BackgroundTransparency=1;v54.TextColor3=Color3.fromRGB(0,255,100);v54.Font=Enum.Font.Code;v54.TextSize=5;v54.LineHeight=0.7;v54.TextWrapped=false;v54.TextXAlignment=Enum.TextXAlignment.Left;v54.Text=[[
+local v0 = game:GetService("Players");
+local v1 = game:GetService("UserInputService");
+local v2 = game:GetService("TweenService");
+local v3 = game:GetService("CoreGui");
+local v4 = v0.LocalPlayer;
+local v5 = Enum.KeyCode.KeypadSeven;
+local v6 = false;
+local v7 = game:GetService("RunService");
+local v8 = Enum.KeyCode.P;
+local v9 = false;
+local v10 = false;
+local v11 = false;
+local v12 = {};
+local v13 = Color3.fromRGB(0, 255, 100);
+local v14 = 10;
+local v15 = false;
+local v16 = false;
+local v17 = nil;
+local v18 = false;
+local v19 = nil;
+local v20 = false;
+local v21 = game:GetService("Lighting").Ambient;
+local v22 = game:GetService("Lighting").OutdoorAmbient;
+local v23 = false;
+local v24 = "          .                                                      .\n" .. "        .n                   .                 .                  n.\n" .. "  .   .dP                  dP                   9b                 9b.    .\n" .. " 4    qXb         .       dX                     Xb       .        dXp     t\n" .. " dX.    9Xb      .dXb    __                         __    dXb.     dXP     .Xb\n" .. " 9XXb._       _.dXXXXb dXXXXbo.                 .odXXXXb dXXXXb._       _.dXXP\n" .. " 9XXXXXXXXXXXXXXXXXXXVXXXXXXXXOo.           .oOXXXXXXXXVXXXXXXXXXXXXXXXXXXXP\n" .. "  `9XXXXXXXXXXXXXXXXXXXXX'~   ~`OOO8b   d8OOO'~   ~`XXXXXXXXXXXXXXXXXXXXXP'\n" .. "    `9XXXXXXXXXXXP' `9XX'   DIE    `98v8P'  HUMAN   `XXP' `9XXXXXXXXXXXP'\n" .. "        ~~~~~~~       9X.          .db|db.          .XP       ~~~~~~~\n" .. "                        )b.  .dbo.dP'`v'`9b.odb.  .dX(\n" .. "                      ,dXXXXXXXXXXXb     dXXXXXXXXXXXb.\n" .. "                     dXXXXXXXXXXXP'   .   `9XXXXXXXXXXXb\n" .. "                    dXXXXXXXXXXXXb   d|b   dXXXXXXXXXXXXb\n" .. "                    9XXb'   `XXXXXb.dX|Xb.dXXXXX'   `dXXP\n" .. "                     `'      9XXXXXX(   )XXXXXXP      `'\n" .. "                              XXXX X.`v'.X XXXX\n" .. "                              XP^X'`b   d'`X^XX\n" .. "                              X. 9  `   '  P )X\n" .. "                              `b  `       '  d'\n" .. "                               `             '";
+local v25 = {IntroAmbience="rbxassetid://90305812327722",Static="rbxassetid://140043289814504",Toggle="rbxassetid://80099403859001",AimbotHub="rbxassetid://110205432201626",IntroExtra="rbxassetid://18379039436",Lagging="rbxassetid://91797564915224"};
+if v3:FindFirstChild("ZokaLite") then
+	v3.ZokaLite:Destroy();
+end
+local v26 = Instance.new("ScreenGui");
+v26.Name = "ZokaLite";
+v26.Parent = v3;
+v26.IgnoreGuiInset = true;
+v26.DisplayOrder = 999;
+local function v31(v202, v203, v204)
+	local v205 = Instance.new("Sound");
+	v205.SoundId = v202;
+	v205.Volume = v203 or 0.5;
+	v205.PlaybackSpeed = v204 or 1;
+	v205.Parent = v26;
+	v205:Play();
+	v205.Ended:Connect(function()
+		v205:Destroy();
+	end);
+	task.delay(30, function()
+		if (v205 and v205.Parent) then
+			v205:Destroy();
+		end
+	end);
+end
+local function v32(v210)
+	if (v210 == v4) then
+		return;
+	end
+	local v211 = Instance.new("Folder", v26);
+	v211.Name = "ESP_" .. v210.Name;
+	local v213 = Instance.new("TextLabel", v211);
+	v213.Name = "Name";
+	v213.Visible = false;
+	v213.BackgroundTransparency = 1;
+	v213.AnchorPoint = Vector2.new(0.5, 0.5);
+	v213.Font = Enum.Font.Code;
+	v213.TextColor3 = v13;
+	local v221 = Instance.new("UIStroke", v213);
+	v221.Thickness = 1;
+	v221.Color = Color3.new(0, 0, 0);
+	v12[v210] = {Folder=v211,Label=v213};
+end
+local function v33(v225)
+	v9 = v225;
+	v31(v25.Static, 0.5, (v9 and 1.2) or 0.8);
+	task.spawn(function()
+		for v396 = 1, 8 do
+			fullScreenGlitch();
+			task.wait(0.02);
+		end
+	end);
+	if not v9 then
+		for v426, v427 in pairs(v12) do
+			if v427.Label then
+				v427.Label.Visible = false;
+			end
+			local v428 = v426.Character;
+			if (v428 and v428:FindFirstChild("ZokaBodyHighlight")) then
+				v428.ZokaBodyHighlight.Enabled = false;
+			end
+		end
+	end
+end
+v7.RenderStepped:Connect(function()
+	if not v9 then
+		return;
+	end
+	local v226 = workspace.CurrentCamera;
+	local v227 = v4.Character;
+	local v228 = v227 and v227:FindFirstChild("HumanoidRootPart");
+	for v372, v373 in pairs(v12) do
+		local v374 = v372.Character;
+		local v375 = v374 and v374:FindFirstChild("HumanoidRootPart");
+		local v376 = v374 and v374:FindFirstChild("Humanoid");
+		if (v375 and v376 and (v376.Health > 0)) then
+			local v429, v430 = v226:WorldToViewportPoint(v375.Position);
+			if v430 then
+				local v480 = v374:FindFirstChild("ZokaBodyHighlight") or Instance.new("Highlight", v374);
+				v480.Name = "ZokaBodyHighlight";
+				v480.FillColor = v13;
+				v480.OutlineColor = Color3.new(1, 1, 1);
+				v480.FillTransparency = 0.5;
+				v480.Enabled = true;
+				local v486 = v372.Name;
+				if v11 then
+					v486 = v486 .. "\nHP: " .. math.floor(v376.Health);
+				end
+				if (v10 and v228) then
+					local v504 = math.floor((v228.Position - v375.Position).Magnitude);
+					v486 = v486 .. "\n[" .. v504 .. "m]";
+				end
+				v373.Label.Text = v486;
+				v373.Label.TextColor3 = v13;
+				v373.Label.TextSize = v14;
+				v373.Label.Position = UDim2.new(0, v429.X, 0, v429.Y - 60);
+				v373.Label.Visible = true;
+			else
+				v373.Label.Visible = false;
+			end
+		else
+			v373.Label.Visible = false;
+		end
+	end
+end);
+v0.PlayerAdded:Connect(v32);
+for v229, v230 in pairs(v0:GetPlayers()) do
+	v32(v230);
+end
+local v34 = Instance.new("Frame", v26);
+v34.Name = "WatermarkFrame";
+v34.Size = UDim2.new(0, 450, 0, 40);
+v34.Position = UDim2.new(1, -460, 0, 15);
+v34.BackgroundTransparency = 1;
+local v39 = Instance.new("TextButton", v34);
+v39.Size = UDim2.new(0, 20, 0, 20);
+v39.Position = UDim2.new(0, 0, 0.5, -10);
+v39.BackgroundTransparency = 1;
+v39.Text = "[x]";
+v39.Font = Enum.Font.Code;
+v39.TextColor3 = Color3.fromRGB(150, 150, 150);
+v39.TextTransparency = 0.5;
+v39.TextSize = 14;
+v39.MouseButton1Click:Connect(function()
+	v34:Destroy();
+end);
+local v49 = Instance.new("Frame", v34);
+v49.Size = UDim2.new(0, 110, 0, 30);
+v49.Position = UDim2.new(0, 30, 0.5, -15);
+v49.BackgroundTransparency = 1;
+v49.ClipsDescendants = false;
+local v54 = Instance.new("TextLabel", v49);
+v54.Size = UDim2.new(1, 0, 1, 0);
+v54.BackgroundTransparency = 1;
+v54.TextColor3 = Color3.fromRGB(0, 255, 100);
+v54.Font = Enum.Font.Code;
+v54.TextSize = 5;
+v54.LineHeight = 0.7;
+v54.TextWrapped = false;
+v54.TextXAlignment = Enum.TextXAlignment.Left;
+v54.Text = [[
 ███████╗ ██████╗ ██╗  ██╗ █████╗ 
 ╚══███╔╝██╔═══██╗██║ ██╔╝██╔══██╗
   ███╔╝ ██║   ██║█████╔╝ ███████║
  ███╔╝  ██║   ██║██╔═██╗ ██╔══██╗
-███████╗╚██████╔╝██║  ██╗██║  ██╗]];local v65=Instance.new("TextLabel",v34);v65.Size=UDim2.new(0,250,0,30);v65.Position=UDim2.new(0,150,0.5, -15);v65.Text="| NOTHING IS IMPOSSIBLE";v65.TextColor3=Color3.fromRGB(255,255,255);v65.TextSize=12;v65.Font=Enum.Font.Code;v65.BackgroundTransparency=1;v65.TextXAlignment=Enum.TextXAlignment.Left;local v74=5;local v75=0;local v76=false;local function v77(v231) if (v75>=v74) then return;end local v232=game:GetService("CoreGui"):FindFirstChild("ZokaLite") or v26 ;if  not v232 then return;end v75=v75 + 1 ;local v233=Instance.new("Frame");v233.Name="ZokaGlitchLine";v233.Parent=v232;local v236=v231 or Color3.fromRGB(0,255,100) ;v233.BackgroundColor3=((math.random()>0.5) and v236) or Color3.fromRGB(255,255,255) ;v233.BorderSizePixel=0;v233.BackgroundTransparency=0.4;v233.Size=UDim2.new(1,0,0,math.random(1,4));v233.Position=UDim2.new(0,0,math.random(5,95)/100 ,0);v233.ZIndex=2000000;task.delay(0.03,function() if (v233 and v233.Parent) then v233:Destroy();end v75=v75-1 ;end);end local function v78() if v76 then return;end v76=true;v31(v25.Static,0.6,1.2);for v377=1,2 do v77();task.wait(0.05);end task.delay(0.2,function() v76=false;end);end local v79=Instance.new("Frame",v26);v79.Name="MainFrame";v79.Size=UDim2.new(0,550,0,350);v79.Position=UDim2.new(0.5,0,0.5,0);v79.AnchorPoint=Vector2.new(0.5,0.5);v79.BackgroundColor3=Color3.fromRGB(5,5,5);v79.Visible=false;v79.ZIndex=5;Instance.new("UICorner",v79).CornerRadius=UDim.new(0,4);local v88=Instance.new("UIStroke",v79);v88.Color=Color3.fromRGB(0,255,100);v88.Thickness=1.2;local v91=Instance.new("Frame",v79);v91.Size=UDim2.new(0,250,0,60);v91.Position=UDim2.new(0,15,0,10);v91.BackgroundTransparency=1;v91.ZIndex=6;local v96=Instance.new("TextLabel",v79);v96.Name="Instructions";v96.Size=UDim2.new(0,250,0,25);v96.Position=UDim2.new(1, -265,0,10);v96.Text="Press [ NumPadSeven ] to hide/show the GUI";v96.TextColor3=Color3.fromRGB(80,80,80);v96.Font=Enum.Font.Code;v96.TextSize=12;v96.TextXAlignment=Enum.TextXAlignment.Right;v96.BackgroundTransparency=1;v96.ZIndex=7;local v108=Instance.new("TextButton",v79);v108.Name="DiscordLink";v108.Size=UDim2.new(0,300,0,30);v108.Position=UDim2.new(1, -315,0,35);v108.BackgroundTransparency=1;v108.Text="discord.gg/zoka";v108.TextColor3=Color3.fromRGB(255,255,255);v108.Font=Enum.Font.Arcade;v108.TextSize=18;v108.TextXAlignment=Enum.TextXAlignment.Right;v108.ZIndex=7;local v120=Instance.new("UIStroke",v108);v120.Color=Color3.fromRGB(191,0,255);v120.Thickness=1.5;v120.ApplyStrokeMode=Enum.ApplyStrokeMode.Contextual;v108.MouseButton1Click:Connect(function() if setclipboard then v31("rbxassetid://1556792072",0.8,1);setclipboard("https://discord.gg/votre-lien");v108.Text="COPIED!";v120.Color=Color3.fromRGB(0,255,100);task.wait(2);v108.Text="discord.gg/zoka";v120.Color=Color3.fromRGB(191,0,255);end end);local v125=Instance.new("TextLabel",v91);v125.Size=UDim2.new(1,0,0,25);v125.Text="ZOKA_OS_V1";v125.TextColor3=Color3.fromRGB(0,255,100);v125.Font=Enum.Font.Code;v125.TextSize=22;v125.TextXAlignment=Enum.TextXAlignment.Left;v125.BackgroundTransparency=1;v125.ZIndex=7;local v134=Instance.new("TextLabel",v91);v134.Size=UDim2.new(1,0,0,20);v134.Position=UDim2.new(0,0,0,25);v134.Text="> HARLEM_HUB";v134.TextColor3=Color3.fromRGB(255,255,255);v134.Font=Enum.Font.Code;v134.TextSize=16;v134.TextXAlignment=Enum.TextXAlignment.Left;v134.BackgroundTransparency=1;v134.ZIndex=7;local v144=Instance.new("TextLabel",v79);v144.Size=UDim2.new(0,120,0,40);v144.Position=UDim2.new(1, -130,1, -45);v144.BackgroundTransparency=1;v144.TextColor3=Color3.fromRGB(0,255,100);v144.TextTransparency=0.5;v144.Font=Enum.Font.Code;v144.TextSize=5;v144.LineHeight=0.7;v144.TextXAlignment=Enum.TextXAlignment.Right;v144.ZIndex=6;v144.Text=[[
+███████╗╚██████╔╝██║  ██╗██║  ██╗]];
+local v65 = Instance.new("TextLabel", v34);
+v65.Size = UDim2.new(0, 250, 0, 30);
+v65.Position = UDim2.new(0, 150, 0.5, -15);
+v65.Text = "| NOTHING IS IMPOSSIBLE";
+v65.TextColor3 = Color3.fromRGB(255, 255, 255);
+v65.TextSize = 12;
+v65.Font = Enum.Font.Code;
+v65.BackgroundTransparency = 1;
+v65.TextXAlignment = Enum.TextXAlignment.Left;
+local v74 = 5;
+local v75 = 0;
+local v76 = false;
+local function v77(v231)
+	if (v75 >= v74) then
+		return;
+	end
+	local v232 = game:GetService("CoreGui"):FindFirstChild("ZokaLite") or v26;
+	if not v232 then
+		return;
+	end
+	v75 = v75 + 1;
+	local v233 = Instance.new("Frame");
+	v233.Name = "ZokaGlitchLine";
+	v233.Parent = v232;
+	local v236 = v231 or Color3.fromRGB(0, 255, 100);
+	v233.BackgroundColor3 = ((math.random() > 0.5) and v236) or Color3.fromRGB(255, 255, 255);
+	v233.BorderSizePixel = 0;
+	v233.BackgroundTransparency = 0.4;
+	v233.Size = UDim2.new(1, 0, 0, math.random(1, 4));
+	v233.Position = UDim2.new(0, 0, math.random(5, 95) / 100, 0);
+	v233.ZIndex = 2000000;
+	task.delay(0.03, function()
+		if (v233 and v233.Parent) then
+			v233:Destroy();
+		end
+		v75 = v75 - 1;
+	end);
+end
+local function v78()
+	if v76 then
+		return;
+	end
+	v76 = true;
+	v31(v25.Static, 0.6, 1.2);
+	for v377 = 1, 2 do
+		v77();
+		task.wait(0.05);
+	end
+	task.delay(0.2, function()
+		v76 = false;
+	end);
+end
+local v79 = Instance.new("Frame", v26);
+v79.Name = "MainFrame";
+v79.Size = UDim2.new(0, 550, 0, 350);
+v79.Position = UDim2.new(0.5, 0, 0.5, 0);
+v79.AnchorPoint = Vector2.new(0.5, 0.5);
+v79.BackgroundColor3 = Color3.fromRGB(5, 5, 5);
+v79.Visible = false;
+v79.ZIndex = 5;
+Instance.new("UICorner", v79).CornerRadius = UDim.new(0, 4);
+local v88 = Instance.new("UIStroke", v79);
+v88.Color = Color3.fromRGB(0, 255, 100);
+v88.Thickness = 1.2;
+local v91 = Instance.new("Frame", v79);
+v91.Size = UDim2.new(0, 250, 0, 60);
+v91.Position = UDim2.new(0, 15, 0, 10);
+v91.BackgroundTransparency = 1;
+v91.ZIndex = 6;
+local v96 = Instance.new("TextLabel", v79);
+v96.Name = "Instructions";
+v96.Size = UDim2.new(0, 250, 0, 25);
+v96.Position = UDim2.new(1, -265, 0, 10);
+v96.Text = "Press [ NumPadSeven ] to hide/show the GUI";
+v96.TextColor3 = Color3.fromRGB(80, 80, 80);
+v96.Font = Enum.Font.Code;
+v96.TextSize = 12;
+v96.TextXAlignment = Enum.TextXAlignment.Right;
+v96.BackgroundTransparency = 1;
+v96.ZIndex = 7;
+local v108 = Instance.new("TextButton", v79);
+v108.Name = "DiscordLink";
+v108.Size = UDim2.new(0, 300, 0, 30);
+v108.Position = UDim2.new(1, -315, 0, 35);
+v108.BackgroundTransparency = 1;
+v108.Text = "discord.gg/zoka";
+v108.TextColor3 = Color3.fromRGB(255, 255, 255);
+v108.Font = Enum.Font.Arcade;
+v108.TextSize = 18;
+v108.TextXAlignment = Enum.TextXAlignment.Right;
+v108.ZIndex = 7;
+local v120 = Instance.new("UIStroke", v108);
+v120.Color = Color3.fromRGB(191, 0, 255);
+v120.Thickness = 1.5;
+v120.ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual;
+v108.MouseButton1Click:Connect(function()
+	if setclipboard then
+		v31("rbxassetid://1556792072", 0.8, 1);
+		setclipboard("https://discord.gg/votre-lien");
+		v108.Text = "COPIED!";
+		v120.Color = Color3.fromRGB(0, 255, 100);
+		task.wait(2);
+		v108.Text = "discord.gg/zoka";
+		v120.Color = Color3.fromRGB(191, 0, 255);
+	end
+end);
+local v125 = Instance.new("TextLabel", v91);
+v125.Size = UDim2.new(1, 0, 0, 25);
+v125.Text = "ZOKA_OS_V1";
+v125.TextColor3 = Color3.fromRGB(0, 255, 100);
+v125.Font = Enum.Font.Code;
+v125.TextSize = 22;
+v125.TextXAlignment = Enum.TextXAlignment.Left;
+v125.BackgroundTransparency = 1;
+v125.ZIndex = 7;
+local v134 = Instance.new("TextLabel", v91);
+v134.Size = UDim2.new(1, 0, 0, 20);
+v134.Position = UDim2.new(0, 0, 0, 25);
+v134.Text = "> HARLEM_HUB";
+v134.TextColor3 = Color3.fromRGB(255, 255, 255);
+v134.Font = Enum.Font.Code;
+v134.TextSize = 16;
+v134.TextXAlignment = Enum.TextXAlignment.Left;
+v134.BackgroundTransparency = 1;
+v134.ZIndex = 7;
+local v144 = Instance.new("TextLabel", v79);
+v144.Size = UDim2.new(0, 120, 0, 40);
+v144.Position = UDim2.new(1, -130, 1, -45);
+v144.BackgroundTransparency = 1;
+v144.TextColor3 = Color3.fromRGB(0, 255, 100);
+v144.TextTransparency = 0.5;
+v144.Font = Enum.Font.Code;
+v144.TextSize = 5;
+v144.LineHeight = 0.7;
+v144.TextXAlignment = Enum.TextXAlignment.Right;
+v144.ZIndex = 6;
+v144.Text = [[
 ███████╗ ██████╗ ██╗  ██╗ █████╗ 
 ╚══███╔╝██╔═══██╗██║ ██╔╝██╔══██╗
   ███╔╝ ██║   ██║█████╔╝ ███████║
  ███╔╝  ██║   ██║██╔═██╗ ██╔══██╗
-███████╗╚██████╔╝██║  ██╗██║  ██╗]];local v156=Instance.new("Frame",v79);v156.Size=UDim2.new(1, -30,0,1);v156.Position=UDim2.new(0,15,0,70);v156.BackgroundColor3=Color3.fromRGB(0,255,100);v156.BackgroundTransparency=0.5;v156.BorderSizePixel=0;v156.ZIndex=6;local v163=Instance.new("ScrollingFrame",v79);v163.Name="ButtonContainer";v163.Size=UDim2.new(1, -30,1, -110);v163.Position=UDim2.new(0,15,0,85);v163.BackgroundTransparency=1;v163.BorderSizePixel=0;v163.ZIndex=6;v163.ScrollBarThickness=2;v163.ScrollBarImageColor3=Color3.fromRGB(0,255,100);v163.ScrollBarImageTransparency=0.5;v163.VerticalScrollBarInset=Enum.ScrollBarInset.ScrollBar;v163.CanvasSize=UDim2.new(0,0,0,0);local v176=Instance.new("UIListLayout",v163);v176.SortOrder=Enum.SortOrder.LayoutOrder;v176.Padding=UDim.new(0,10);v176:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function() v163.CanvasSize=UDim2.new(0,0,0,v176.AbsoluteContentSize.Y + 20 );end);local function v180(v244) local v245=Instance.new("TextLabel",v163);v245.Name="Category_"   .. v244 ;v245.Size=UDim2.new(1,0,0,25);v245.BackgroundTransparency=1;v245.Text="--- [ "   .. v244:upper()   .. " ] ---" ;v245.TextColor3=Color3.fromRGB(0,255,100);v245.Font=Enum.Font.Code;v245.TextSize=14;v245.ZIndex=7;local v255=Instance.new("Frame",v163);v255.Name=v244   .. "_Grid" ;v255.BackgroundTransparency=1;v255.Size=UDim2.new(1,0,0,0);local v259=Instance.new("UIGridLayout",v255);v259.CellSize=UDim2.new(0,160,0,35);v259.CellPadding=UDim2.new(0,10,0,10);v259.SortOrder=Enum.SortOrder.LayoutOrder;v259:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function() v255.Size=UDim2.new(1,0,0,v259.AbsoluteContentSize.Y);end);return v255;end local function v181(v264,v265,v266) local v267=Instance.new("TextButton",v265);v267.Name=v264   .. "Btn" ;v267.BackgroundColor3=Color3.fromRGB(15,15,15);v267.TextColor3=Color3.fromRGB(0,255,100);v267.Text="[ ] "   .. v264 ;v267.Font=Enum.Font.Code;v267.TextSize=14;v267.BorderSizePixel=0;v267.ZIndex=7;local v277=Instance.new("UIStroke",v267);v277.Color=Color3.fromRGB(0,255,100);v277.Thickness=1;v277.Transparency=0.6;local v281=false;v267.MouseButton1Click:Connect(function() v281= not v281;if v281 then v267.TextColor3=Color3.fromRGB(255,255,255);v267.BackgroundColor3=Color3.fromRGB(0,100,40);v267.Text="[X] "   .. v264 ;v31(v25.Toggle,0.5,1.2);else v267.TextColor3=Color3.fromRGB(0,255,100);v267.BackgroundColor3=Color3.fromRGB(15,15,15);v267.Text="[ ] "   .. v264 ;v31(v25.Static,0.5,0.8);end v266(v281);if v264:find("SIZE") then v267.Text="[ ] FONT SIZE: "   .. v14 ;elseif v264:find("BIND") then if v15 then v267.Text="[ ] PRESS ANY KEY";else v267.Text="[ ] BIND: "   .. v8.Name ;end end end);return v267;end local v182=v180("PLAYER");local v183=false;v181("SPEED HACK",v182,function(v282) v183=v282;task.spawn(function() while v183 do if (v4.Character and v4.Character:FindFirstChild("Humanoid")) then v4.Character.Humanoid.WalkSpeed=40;end task.wait(0.1);end if (v4.Character and v4.Character:FindFirstChild("Humanoid")) then v4.Character.Humanoid.WalkSpeed=16;end end);end);local v184=v180("AUTOFARM");local v185=false;v181("AUTO LOOT TRASH",v184,function(v283) v185=v283;local v284=Vector3.new( -142.07650756835938,10.118797302246094, -34.004337310791016);local v285=workspace:FindFirstChild("Loot");local v286=v285 and v285:FindFirstChild("Dumpster3") ;local v287=v286 and v286:FindFirstChild("Cont") ;local v288=v287 and v287:FindFirstChild("ProximityPrompt") ;if v283 then if (v4.Character and v4.Character:FindFirstChild("HumanoidRootPart")) then v4.Character.HumanoidRootPart.CFrame=CFrame.new(v284);end task.spawn(function() while v185 do if v288 then v288.HoldDuration=0;for v507=1,3 do if  not v185 then break;end fireproximityprompt(v288);task.wait(1);end end task.wait(118);end end);elseif v288 then v288.HoldDuration=1;end end);local v186=false;v181("AUTO CLEANING",v184,function(v289) v186=v289;if v289 then task.spawn(function() if (v4.Character and v4.Character:FindFirstChild("HumanoidRootPart")) then v4.Character.HumanoidRootPart.CFrame=CFrame.new( -559.367,8.102, -90.45);task.wait(0.5);local v494=game:GetService("TextChatService");if (v494.ChatVersion==Enum.ChatVersion.TextChatService) then v494.TextChannels.RBXGeneral:SendAsync("/applyjob");else game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/applyjob","All");end task.wait(1);v4.Character.HumanoidRootPart.CFrame=CFrame.new( -556.981,9.496, -85.429);task.wait(0.5);end while v186 do local v456=workspace:FindFirstChild("JobSystem") and workspace.JobSystem:FindFirstChild("CleaningJob2") ;if v456 then for v508,v509 in pairs(v456:GetChildren()) do if  not v186 then break;end if (v509.Name=="CleaningSpot") then local v516=v509:FindFirstChildWhichIsA("ProximityPrompt");if v516 then v516.HoldDuration=0;v516.Enabled=true;task.spawn(function() fireproximityprompt(v516);end);end end end end task.wait();end end);else task.spawn(function() local v440=workspace:FindFirstChild("JobSystem") and workspace.JobSystem:FindFirstChild("CleaningJob2") ;if v440 then for v500,v501 in pairs(v440:GetChildren()) do if (v501.Name=="CleaningSpot") then local v514=v501:FindFirstChildWhichIsA("ProximityPrompt");if v514 then v514.HoldDuration=5.5;end end end end end);end end);local v187=50;local v188=false;local v189=nil;v181("INF JUMP",v182,function(v290) v188=v290;if v188 then v189=game:GetService("UserInputService").InputBegan:Connect(function(v441,v442) if ( not v442 and (v441.KeyCode==Enum.KeyCode.Space)) then if (v188 and v4.Character and v4.Character:FindFirstChild("HumanoidRootPart")) then local v510=v4.Character.HumanoidRootPart;v510.Velocity=Vector3.new(v510.Velocity.X,v187,v510.Velocity.Z);v31(v25.Toggle,0.2,2);end end end);else if v189 then v189:Disconnect();v189=nil;end v31(v25.Static,0.5,0.8);end end);v181("NOCLIP",v182,function(v291) v16=v291;if v16 then v17=game:GetService("RunService").Stepped:Connect(function() if (v16 and v4.Character) then for v502,v503 in pairs(v4.Character:GetDescendants()) do if (v503:IsA("BasePart") and v503.CanCollide) then v503.CanCollide=false;end end end end);v31(v25.Toggle,0.5,1.5);else if v17 then v17:Disconnect();v17=nil;end if v4.Character then for v495,v496 in pairs(v4.Character:GetDescendants()) do if v496:IsA("BasePart") then v496.CanCollide=true;end end end v31(v25.Static,0.5,0.8);end end);local v190=v180("VISUALS");local v191=v181("SYSTEM ESP",v190,function(v292) v33(v292);end);v181("SHOW DISTANCE",v190,function(v293) v10=v293;end);v181("SHOW HEALTH",v190,function(v294) v11=v294;end);local v192=v181("FONT SIZE: "   .. v14 ,v190,function() if (v14>=20) then v14=8;else v14=v14 + 2 ;end end);local v193=v181("BIND: "   .. v8.Name ,v190,function() v15=true;end);local v194=v180("UTILITY");v181("FULLBRIGHT",v194,function(v295) v20=v295;if v20 then game:GetService("Lighting").Ambient=Color3.fromRGB(255,255,255);game:GetService("Lighting").OutdoorAmbient=Color3.fromRGB(255,255,255);game:GetService("Lighting").Brightness=2;else game:GetService("Lighting").Ambient=v21;game:GetService("Lighting").OutdoorAmbient=v22;game:GetService("Lighting").Brightness=1;end end);v181("ANTI-AFK",v194,function(v296) local v297=getconnections or get_signal_cons ;if v297 then for v443,v444 in pairs(v297(v4.Idled)) do if v296 then v444:Disable();else v444:Enable();end end end if v296 then v4.Idled:Connect(function() game:GetService("VirtualUser"):CaptureController();game:GetService("VirtualUser"):ClickButton2(Vector2.new());end);end end);v181("REJOIN SERVER",v194,function() local v298=game:GetService("TeleportService");v298:TeleportToPlaceInstance(game.PlaceId,game.JobId,v4);end);v181("FPS BOOSTER",v194,function() for v379,v380 in pairs(game:GetDescendants()) do if (v380:IsA("BasePart") and  not v380:IsA("MeshPart")) then v380.Material=Enum.Material.SmoothPlastic;elseif (v380:IsA("Decal") or v380:IsA("Texture")) then v380:Destroy();end end end);local v195=v181("AIMBOT HUB",v194,function() v31(v25.AimbotHub,0.2,2);loadstring(game:HttpGet("https://raw.githubusercontent.com/ZokaOnTop/005/refs/heads/main/005"))();end);v195.TextColor3=Color3.fromRGB(255,0,0);local v88=v195:FindFirstChildWhichIsA("UIStroke");if v88 then v88.Color=Color3.fromRGB(255,0,0);end local v197,v198,v199,v200;v79.InputBegan:Connect(function(v299) if ((v299.UserInputType==Enum.UserInputType.MouseButton1) or (v299.UserInputType==Enum.UserInputType.Touch)) then v197=true;v199=v299.Position;v200=v79.Position;v299.Changed:Connect(function() if (v299.UserInputState==Enum.UserInputState.End) then v197=false;end end);end end);v79.InputChanged:Connect(function(v300) if ((v300.UserInputType==Enum.UserInputType.MouseMovement) or (v300.UserInputType==Enum.UserInputType.Touch)) then v198=v300;end end);v1.InputChanged:Connect(function(v301) if ((v301==v198) and v197) then local v407=v301.Position-v199 ;v79.Position=UDim2.new(v200.X.Scale,v200.X.Offset + v407.X ,v200.Y.Scale,v200.Y.Offset + v407.Y );end end);function toggleUI() if  not v6 then v6=true;v31(v25.Toggle,0.7,1);local v409=v79.Position;local v410=v79.AbsolutePosition;local v411=v79.AbsoluteSize;v77();for v447=1,5 do task.spawn(function() local v457=Instance.new("Frame",v26);v457.BorderSizePixel=0;v457.BackgroundColor3=((math.random()>0.5) and Color3.fromRGB(0,255,100)) or Color3.fromRGB(255,255,255) ;v457.Size=UDim2.new(0,0,0,0);v457.ZIndex=10001;local v462=v410.X + (v411.X/2) + math.random( -300,300) ;local v463=v410.Y + (v411.Y/2) + math.random( -300,300) ;v457.Position=UDim2.new(0,v462,0,v463);v457.BackgroundTransparency=1;local v466=v410.X + math.random(0,v411.X) ;local v467=v410.Y + math.random(0,v411.Y) ;local v468=v2:Create(v457,TweenInfo.new(0.5,Enum.EasingStyle.Quart,Enum.EasingDirection.Out),{Position=UDim2.new(0,v466,0,v467),Size=UDim2.new(0,math.random(5,25),0,math.random(5,25)),BackgroundTransparency=0.2,Rotation=math.random( -180,180)});v468:Play();v468.Completed:Connect(function() task.wait(0.05);v457:Destroy();end);end);if ((v447%6)==0) then task.wait();end end task.wait(0.2);v79.Visible=true;v77();for v448=1,8 do v79.Position=UDim2.new(v409.X.Scale,v409.X.Offset + math.random( -5,5) ,v409.Y.Scale,v409.Y.Offset + math.random( -5,5) );task.wait(0.01);end v79.Position=v409;else v6=false;v31(v25.Static,0.8,0.8);local v414=v79.AbsolutePosition;local v415=v79.AbsoluteSize;v79.Visible=false;v77();for v450=1,25 do task.spawn(function() local v469=Instance.new("Frame",v26);v469.BorderSizePixel=0;v469.BackgroundColor3=((math.random()>0.5) and Color3.fromRGB(0,255,100)) or Color3.fromRGB(20,20,20) ;v469.Size=UDim2.new(0,math.random(10,40),0,math.random(10,40));v469.Position=UDim2.new(0,v414.X + math.random(0,v415.X) ,0,v414.Y + math.random(0,v415.Y) );v469.ZIndex=10001;local v475=math.random( -150,150);local v476=math.random(200,500);local v477=v2:Create(v469,TweenInfo.new(0.6,Enum.EasingStyle.Quart,Enum.EasingDirection.In),{Position=v469.Position + UDim2.new(0,v475,0,v476) ,Rotation=math.random( -180,180),BackgroundTransparency=1,Size=UDim2.new(0,0,0,0)});v477:Play();v477.Completed:Connect(function() v469:Destroy();end);end);if ((v450%5)==0) then task.wait();end end end end function startIntro() local v302=Instance.new("Frame",v26);v302.Size=UDim2.new(1,0,1,0);v302.BackgroundColor3=Color3.fromRGB(0,0,0);v302.ZIndex=2000;v302.Visible=true;local v307=Instance.new("TextLabel",v302);v307.Size=UDim2.new(0.5,0,0.4,0);v307.Position=UDim2.new(0.02,0,0.02,0);v307.BackgroundTransparency=1;v307.TextColor3=Color3.fromRGB(0,255,100);v307.Font=Enum.Font.Code;v307.TextSize=14;v307.TextXAlignment=Enum.TextXAlignment.Left;v307.ZIndex=2005;v307.Text="";local v319=Instance.new("TextLabel",v302);v319.Name="ScrollingSkull";v319.Size=UDim2.new(0,600,0,200);v319.Position=UDim2.new(1.1,0,0.62,0);v319.BackgroundTransparency=1;v319.TextColor3=Color3.fromRGB(255,0,50);v319.Font=Enum.Font.Code;v319.TextSize=7;v319.ZIndex=2004;v319.TextXAlignment=Enum.TextXAlignment.Left;v319.Text=v24;v319.TextWrapped=false;v319.RichText=true;v319.Visible=false;local v333=Instance.new("TextLabel",v302);v333.Size=UDim2.new(0.8,0,0.5,0);v333.Position=UDim2.new(0.5,0,0.4,0);v333.AnchorPoint=Vector2.new(0.5,0.5);v333.BackgroundTransparency=1;v333.TextColor3=Color3.fromRGB(255,0,50);v333.Font=Enum.Font.Code;v333.TextSize=12;v333.ZIndex=2006;v333.TextTransparency=1;v333.TextWrapped=false;v333.Text=[[
+███████╗╚██████╔╝██║  ██╗██║  ██╗]];
+local v156 = Instance.new("Frame", v79);
+v156.Size = UDim2.new(1, -30, 0, 1);
+v156.Position = UDim2.new(0, 15, 0, 70);
+v156.BackgroundColor3 = Color3.fromRGB(0, 255, 100);
+v156.BackgroundTransparency = 0.5;
+v156.BorderSizePixel = 0;
+v156.ZIndex = 6;
+local v163 = Instance.new("ScrollingFrame", v79);
+v163.Name = "ButtonContainer";
+v163.Size = UDim2.new(1, -30, 1, -110);
+v163.Position = UDim2.new(0, 15, 0, 85);
+v163.BackgroundTransparency = 1;
+v163.BorderSizePixel = 0;
+v163.ZIndex = 6;
+v163.ScrollBarThickness = 2;
+v163.ScrollBarImageColor3 = Color3.fromRGB(0, 255, 100);
+v163.ScrollBarImageTransparency = 0.5;
+v163.VerticalScrollBarInset = Enum.ScrollBarInset.ScrollBar;
+v163.CanvasSize = UDim2.new(0, 0, 0, 0);
+local v176 = Instance.new("UIListLayout", v163);
+v176.SortOrder = Enum.SortOrder.LayoutOrder;
+v176.Padding = UDim.new(0, 10);
+v176:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+	v163.CanvasSize = UDim2.new(0, 0, 0, v176.AbsoluteContentSize.Y + 20);
+end);
+local function v180(v244)
+	local v245 = Instance.new("TextLabel", v163);
+	v245.Name = "Category_" .. v244;
+	v245.Size = UDim2.new(1, 0, 0, 25);
+	v245.BackgroundTransparency = 1;
+	v245.Text = "--- [ " .. v244:upper() .. " ] ---";
+	v245.TextColor3 = Color3.fromRGB(0, 255, 100);
+	v245.Font = Enum.Font.Code;
+	v245.TextSize = 14;
+	v245.ZIndex = 7;
+	local v255 = Instance.new("Frame", v163);
+	v255.Name = v244 .. "_Grid";
+	v255.BackgroundTransparency = 1;
+	v255.Size = UDim2.new(1, 0, 0, 0);
+	local v259 = Instance.new("UIGridLayout", v255);
+	v259.CellSize = UDim2.new(0, 160, 0, 35);
+	v259.CellPadding = UDim2.new(0, 10, 0, 10);
+	v259.SortOrder = Enum.SortOrder.LayoutOrder;
+	v259:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+		v255.Size = UDim2.new(1, 0, 0, v259.AbsoluteContentSize.Y);
+	end);
+	return v255;
+end
+local function v181(v264, v265, v266)
+	local v267 = Instance.new("TextButton", v265);
+	v267.Name = v264 .. "Btn";
+	v267.BackgroundColor3 = Color3.fromRGB(15, 15, 15);
+	v267.TextColor3 = Color3.fromRGB(0, 255, 100);
+	v267.Text = "[ ] " .. v264;
+	v267.Font = Enum.Font.Code;
+	v267.TextSize = 14;
+	v267.BorderSizePixel = 0;
+	v267.ZIndex = 7;
+	local v277 = Instance.new("UIStroke", v267);
+	v277.Color = Color3.fromRGB(0, 255, 100);
+	v277.Thickness = 1;
+	v277.Transparency = 0.6;
+	local v281 = false;
+	v267.MouseButton1Click:Connect(function()
+		v281 = not v281;
+		if v281 then
+			v267.TextColor3 = Color3.fromRGB(255, 255, 255);
+			v267.BackgroundColor3 = Color3.fromRGB(0, 100, 40);
+			v267.Text = "[X] " .. v264;
+			v31(v25.Toggle, 0.5, 1.2);
+		else
+			v267.TextColor3 = Color3.fromRGB(0, 255, 100);
+			v267.BackgroundColor3 = Color3.fromRGB(15, 15, 15);
+			v267.Text = "[ ] " .. v264;
+			v31(v25.Static, 0.5, 0.8);
+		end
+		v266(v281);
+		if v264:find("SIZE") then
+			v267.Text = "[ ] FONT SIZE: " .. v14;
+		elseif v264:find("BIND") then
+			if v15 then
+				v267.Text = "[ ] PRESS ANY KEY";
+			else
+				v267.Text = "[ ] BIND: " .. v8.Name;
+			end
+		end
+	end);
+	return v267;
+end
+local v182 = v180("PLAYER");
+local v183 = false;
+v181("SPEED HACK", v182, function(v282)
+	v183 = v282;
+	task.spawn(function()
+		while v183 do
+			if (v4.Character and v4.Character:FindFirstChild("Humanoid")) then
+				v4.Character.Humanoid.WalkSpeed = 40;
+			end
+			task.wait(0.1);
+		end
+		if (v4.Character and v4.Character:FindFirstChild("Humanoid")) then
+			v4.Character.Humanoid.WalkSpeed = 16;
+		end
+	end);
+end);
+local v184 = v180("AUTOFARM");
+local v185 = false;
+v181("AUTO LOOT TRASH", v184, function(v283)
+	v185 = v283;
+	local v284 = Vector3.new(-142.07650756835938, 10.118797302246094, -34.004337310791016);
+	local v285 = workspace:FindFirstChild("Loot");
+	local v286 = v285 and v285:FindFirstChild("Dumpster3");
+	local v287 = v286 and v286:FindFirstChild("Cont");
+	local v288 = v287 and v287:FindFirstChild("ProximityPrompt");
+	if v283 then
+		if (v4.Character and v4.Character:FindFirstChild("HumanoidRootPart")) then
+			v4.Character.HumanoidRootPart.CFrame = CFrame.new(v284);
+		end
+		task.spawn(function()
+			while v185 do
+				if v288 then
+					v288.HoldDuration = 0;
+					for v507 = 1, 3 do
+						if not v185 then
+							break;
+						end
+						fireproximityprompt(v288);
+						task.wait(1);
+					end
+				end
+				task.wait(118);
+			end
+		end);
+	elseif v288 then
+		v288.HoldDuration = 1;
+	end
+end);
+local v186 = false;
+v181("AUTO CLEANING", v184, function(v289)
+	v186 = v289;
+	if v289 then
+		task.spawn(function()
+			if (v4.Character and v4.Character:FindFirstChild("HumanoidRootPart")) then
+				v4.Character.HumanoidRootPart.CFrame = CFrame.new(-559.367, 8.102, -90.45);
+				task.wait(0.5);
+				local v494 = game:GetService("TextChatService");
+				if (v494.ChatVersion == Enum.ChatVersion.TextChatService) then
+					v494.TextChannels.RBXGeneral:SendAsync("/applyjob");
+				else
+					game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("/applyjob", "All");
+				end
+				task.wait(1);
+				v4.Character.HumanoidRootPart.CFrame = CFrame.new(-556.981, 9.496, -85.429);
+				task.wait(0.5);
+			end
+			while v186 do
+				local v456 = workspace:FindFirstChild("JobSystem") and workspace.JobSystem:FindFirstChild("CleaningJob2");
+				if v456 then
+					for v508, v509 in pairs(v456:GetChildren()) do
+						if not v186 then
+							break;
+						end
+						if (v509.Name == "CleaningSpot") then
+							local v516 = v509:FindFirstChildWhichIsA("ProximityPrompt");
+							if v516 then
+								v516.HoldDuration = 0;
+								v516.Enabled = true;
+								task.spawn(function()
+									fireproximityprompt(v516);
+								end);
+							end
+						end
+					end
+				end
+				task.wait();
+			end
+		end);
+	else
+		task.spawn(function()
+			local v440 = workspace:FindFirstChild("JobSystem") and workspace.JobSystem:FindFirstChild("CleaningJob2");
+			if v440 then
+				for v500, v501 in pairs(v440:GetChildren()) do
+					if (v501.Name == "CleaningSpot") then
+						local v514 = v501:FindFirstChildWhichIsA("ProximityPrompt");
+						if v514 then
+							v514.HoldDuration = 5.5;
+						end
+					end
+				end
+			end
+		end);
+	end
+end);
+local v187 = 50;
+local v188 = false;
+local v189 = nil;
+v181("INF JUMP", v182, function(v290)
+	v188 = v290;
+	if v188 then
+		v189 = game:GetService("UserInputService").InputBegan:Connect(function(v441, v442)
+			if (not v442 and (v441.KeyCode == Enum.KeyCode.Space)) then
+				if (v188 and v4.Character and v4.Character:FindFirstChild("HumanoidRootPart")) then
+					local v510 = v4.Character.HumanoidRootPart;
+					v510.Velocity = Vector3.new(v510.Velocity.X, v187, v510.Velocity.Z);
+					v31(v25.Toggle, 0.2, 2);
+				end
+			end
+		end);
+	else
+		if v189 then
+			v189:Disconnect();
+			v189 = nil;
+		end
+		v31(v25.Static, 0.5, 0.8);
+	end
+end);
+v181("NOCLIP", v182, function(v291)
+	v16 = v291;
+	if v16 then
+		v17 = game:GetService("RunService").Stepped:Connect(function()
+			if (v16 and v4.Character) then
+				for v502, v503 in pairs(v4.Character:GetDescendants()) do
+					if (v503:IsA("BasePart") and v503.CanCollide) then
+						v503.CanCollide = false;
+					end
+				end
+			end
+		end);
+		v31(v25.Toggle, 0.5, 1.5);
+	else
+		if v17 then
+			v17:Disconnect();
+			v17 = nil;
+		end
+		if v4.Character then
+			for v495, v496 in pairs(v4.Character:GetDescendants()) do
+				if v496:IsA("BasePart") then
+					v496.CanCollide = true;
+				end
+			end
+		end
+		v31(v25.Static, 0.5, 0.8);
+	end
+end);
+local v190 = v180("VISUALS");
+local v191 = v181("SYSTEM ESP", v190, function(v292)
+	v33(v292);
+end);
+v181("SHOW DISTANCE", v190, function(v293)
+	v10 = v293;
+end);
+v181("SHOW HEALTH", v190, function(v294)
+	v11 = v294;
+end);
+local v192 = v181("FONT SIZE: " .. v14, v190, function()
+	if (v14 >= 20) then
+		v14 = 8;
+	else
+		v14 = v14 + 2;
+	end
+end);
+local v193 = v181("BIND: " .. v8.Name, v190, function()
+	v15 = true;
+end);
+local v194 = v180("UTILITY");
+v181("FULLBRIGHT", v194, function(v295)
+	v20 = v295;
+	if v20 then
+		game:GetService("Lighting").Ambient = Color3.fromRGB(255, 255, 255);
+		game:GetService("Lighting").OutdoorAmbient = Color3.fromRGB(255, 255, 255);
+		game:GetService("Lighting").Brightness = 2;
+	else
+		game:GetService("Lighting").Ambient = v21;
+		game:GetService("Lighting").OutdoorAmbient = v22;
+		game:GetService("Lighting").Brightness = 1;
+	end
+end);
+v181("ANTI-AFK", v194, function(v296)
+	local v297 = getconnections or get_signal_cons;
+	if v297 then
+		for v443, v444 in pairs(v297(v4.Idled)) do
+			if v296 then
+				v444:Disable();
+			else
+				v444:Enable();
+			end
+		end
+	end
+	if v296 then
+		v4.Idled:Connect(function()
+			game:GetService("VirtualUser"):CaptureController();
+			game:GetService("VirtualUser"):ClickButton2(Vector2.new());
+		end);
+	end
+end);
+v181("REJOIN SERVER", v194, function()
+	local v298 = game:GetService("TeleportService");
+	v298:TeleportToPlaceInstance(game.PlaceId, game.JobId, v4);
+end);
+v181("FPS BOOSTER", v194, function()
+	for v379, v380 in pairs(game:GetDescendants()) do
+		if (v380:IsA("BasePart") and not v380:IsA("MeshPart")) then
+			v380.Material = Enum.Material.SmoothPlastic;
+		elseif (v380:IsA("Decal") or v380:IsA("Texture")) then
+			v380:Destroy();
+		end
+	end
+end);
+local v195 = v181("AIMBOT HUB", v194, function()
+	v31(v25.AimbotHub, 0.2, 2);
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/ZokaOnTop/005/refs/heads/main/005"))();
+end);
+v195.TextColor3 = Color3.fromRGB(255, 0, 0);
+local v88 = v195:FindFirstChildWhichIsA("UIStroke");
+if v88 then
+	v88.Color = Color3.fromRGB(255, 0, 0);
+end
+local v197, v198, v199, v200;
+v79.InputBegan:Connect(function(v299)
+	if ((v299.UserInputType == Enum.UserInputType.MouseButton1) or (v299.UserInputType == Enum.UserInputType.Touch)) then
+		v197 = true;
+		v199 = v299.Position;
+		v200 = v79.Position;
+		v299.Changed:Connect(function()
+			if (v299.UserInputState == Enum.UserInputState.End) then
+				v197 = false;
+			end
+		end);
+	end
+end);
+v79.InputChanged:Connect(function(v300)
+	if ((v300.UserInputType == Enum.UserInputType.MouseMovement) or (v300.UserInputType == Enum.UserInputType.Touch)) then
+		v198 = v300;
+	end
+end);
+v1.InputChanged:Connect(function(v301)
+	if ((v301 == v198) and v197) then
+		local v407 = v301.Position - v199;
+		v79.Position = UDim2.new(v200.X.Scale, v200.X.Offset + v407.X, v200.Y.Scale, v200.Y.Offset + v407.Y);
+	end
+end);
+function toggleUI()
+	if not v6 then
+		v6 = true;
+		v31(v25.Toggle, 0.7, 1);
+		local v409 = v79.Position;
+		local v410 = v79.AbsolutePosition;
+		local v411 = v79.AbsoluteSize;
+		v77();
+		for v447 = 1, 5 do
+			task.spawn(function()
+				local v457 = Instance.new("Frame", v26);
+				v457.BorderSizePixel = 0;
+				v457.BackgroundColor3 = ((math.random() > 0.5) and Color3.fromRGB(0, 255, 100)) or Color3.fromRGB(255, 255, 255);
+				v457.Size = UDim2.new(0, 0, 0, 0);
+				v457.ZIndex = 10001;
+				local v462 = v410.X + (v411.X / 2) + math.random(-300, 300);
+				local v463 = v410.Y + (v411.Y / 2) + math.random(-300, 300);
+				v457.Position = UDim2.new(0, v462, 0, v463);
+				v457.BackgroundTransparency = 1;
+				local v466 = v410.X + math.random(0, v411.X);
+				local v467 = v410.Y + math.random(0, v411.Y);
+				local v468 = v2:Create(v457, TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Position=UDim2.new(0, v466, 0, v467),Size=UDim2.new(0, math.random(5, 25), 0, math.random(5, 25)),BackgroundTransparency=0.2,Rotation=math.random(-180, 180)});
+				v468:Play();
+				v468.Completed:Connect(function()
+					task.wait(0.05);
+					v457:Destroy();
+				end);
+			end);
+			if ((v447 % 6) == 0) then
+				task.wait();
+			end
+		end
+		task.wait(0.2);
+		v79.Visible = true;
+		v77();
+		for v448 = 1, 8 do
+			v79.Position = UDim2.new(v409.X.Scale, v409.X.Offset + math.random(-5, 5), v409.Y.Scale, v409.Y.Offset + math.random(-5, 5));
+			task.wait(0.01);
+		end
+		v79.Position = v409;
+	else
+		v6 = false;
+		v31(v25.Static, 0.8, 0.8);
+		local v414 = v79.AbsolutePosition;
+		local v415 = v79.AbsoluteSize;
+		v79.Visible = false;
+		v77();
+		for v450 = 1, 25 do
+			task.spawn(function()
+				local v469 = Instance.new("Frame", v26);
+				v469.BorderSizePixel = 0;
+				v469.BackgroundColor3 = ((math.random() > 0.5) and Color3.fromRGB(0, 255, 100)) or Color3.fromRGB(20, 20, 20);
+				v469.Size = UDim2.new(0, math.random(10, 40), 0, math.random(10, 40));
+				v469.Position = UDim2.new(0, v414.X + math.random(0, v415.X), 0, v414.Y + math.random(0, v415.Y));
+				v469.ZIndex = 10001;
+				local v475 = math.random(-150, 150);
+				local v476 = math.random(200, 500);
+				local v477 = v2:Create(v469, TweenInfo.new(0.6, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {Position=(v469.Position + UDim2.new(0, v475, 0, v476)),Rotation=math.random(-180, 180),BackgroundTransparency=1,Size=UDim2.new(0, 0, 0, 0)});
+				v477:Play();
+				v477.Completed:Connect(function()
+					v469:Destroy();
+				end);
+			end);
+			if ((v450 % 5) == 0) then
+				task.wait();
+			end
+		end
+	end
+end
+function startIntro()
+	local v302 = Instance.new("Frame", v26);
+	v302.Size = UDim2.new(1, 0, 1, 0);
+	v302.BackgroundColor3 = Color3.fromRGB(0, 0, 0);
+	v302.ZIndex = 2000;
+	v302.Visible = true;
+	local v307 = Instance.new("TextLabel", v302);
+	v307.Size = UDim2.new(0.5, 0, 0.4, 0);
+	v307.Position = UDim2.new(0.02, 0, 0.02, 0);
+	v307.BackgroundTransparency = 1;
+	v307.TextColor3 = Color3.fromRGB(0, 255, 100);
+	v307.Font = Enum.Font.Code;
+	v307.TextSize = 14;
+	v307.TextXAlignment = Enum.TextXAlignment.Left;
+	v307.ZIndex = 2005;
+	v307.Text = "";
+	local v319 = Instance.new("TextLabel", v302);
+	v319.Name = "ScrollingSkull";
+	v319.Size = UDim2.new(0, 600, 0, 200);
+	v319.Position = UDim2.new(1.1, 0, 0.62, 0);
+	v319.BackgroundTransparency = 1;
+	v319.TextColor3 = Color3.fromRGB(255, 0, 50);
+	v319.Font = Enum.Font.Code;
+	v319.TextSize = 7;
+	v319.ZIndex = 2004;
+	v319.TextXAlignment = Enum.TextXAlignment.Left;
+	v319.Text = v24;
+	v319.TextWrapped = false;
+	v319.RichText = true;
+	v319.Visible = false;
+	local v333 = Instance.new("TextLabel", v302);
+	v333.Size = UDim2.new(0.8, 0, 0.5, 0);
+	v333.Position = UDim2.new(0.5, 0, 0.4, 0);
+	v333.AnchorPoint = Vector2.new(0.5, 0.5);
+	v333.BackgroundTransparency = 1;
+	v333.TextColor3 = Color3.fromRGB(255, 0, 50);
+	v333.Font = Enum.Font.Code;
+	v333.TextSize = 12;
+	v333.ZIndex = 2006;
+	v333.TextTransparency = 1;
+	v333.TextWrapped = false;
+	v333.Text = [[
  ███████╗██████╗ ██████╗  ██████╗ ██████╗ 
  ██╔════╝██╔══██╗██╔══██╗██╔═══██╗██╔══██╗
  █████╗  ██████╔╝██████╔╝██║   ██║██████╔╝
  ██╔══╝  ██╔══██╗██╔══██╗██║   ██║██╔══██╗
  ███████╗██║  ██║██║  ██║╚██████╔╝██║  ██║
- ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝]];local v345=Instance.new("TextLabel",v302);v345.Size=UDim2.new(0.8,0,0.5,0);v345.Position=UDim2.new(0.5,0,0.4,0);v345.AnchorPoint=Vector2.new(0.5,0.5);v345.BackgroundTransparency=1;v345.TextColor3=Color3.fromRGB(0,255,100);v345.Font=Enum.Font.Code;v345.TextSize=12;v345.ZIndex=2007;v345.TextTransparency=1;v345.TextWrapped=false;v345.Text=[[
+ ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝]];
+	local v345 = Instance.new("TextLabel", v302);
+	v345.Size = UDim2.new(0.8, 0, 0.5, 0);
+	v345.Position = UDim2.new(0.5, 0, 0.4, 0);
+	v345.AnchorPoint = Vector2.new(0.5, 0.5);
+	v345.BackgroundTransparency = 1;
+	v345.TextColor3 = Color3.fromRGB(0, 255, 100);
+	v345.Font = Enum.Font.Code;
+	v345.TextSize = 12;
+	v345.ZIndex = 2007;
+	v345.TextTransparency = 1;
+	v345.TextWrapped = false;
+	v345.Text = [[
  ███████╗ ██████╗ ██╗  ██╗ █████╗ 
  ╚══███╔╝██╔═══██╗██║ ██╔╝██╔══██╗
    ███╔╝ ██║   ██║█████╔╝ ███████║
   ███╔╝  ██║   ██║██╔═██╗ ██╔══██╗
  ███████╗╚██████╔╝██║  ██╗██║  ██╗
- ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝]];local v357=Instance.new("TextLabel",v302);v357.Size=UDim2.new(1,0,0,50);v357.Position=UDim2.new(0,0,0.85,0);v357.BackgroundTransparency=1;v357.TextColor3=Color3.fromRGB(255,255,255);v357.Font=Enum.Font.Code;v357.TextSize=18;v357.ZIndex=2005;v357.Text="";v31(v25.IntroAmbience,0.8,1);task.delay(2,function() v307.TextColor3=Color3.fromRGB(255,0,50);v319.TextColor3=Color3.fromRGB(255,0,50);v319.Visible=true;v31(v25.Lagging,1,0.8);local v385=v2:Create(v319,TweenInfo.new(3,Enum.EasingStyle.Linear),{Position=UDim2.new( -0.6,0,0.65,0)});v385:Play();for v417=1,10 do v333.Position=UDim2.new(0.5,math.random( -20,20),0.4,math.random( -20,20));v333.TextTransparency=math.random(0,3)/10 ;v77(Color3.fromRGB(255,0,50));task.wait(0.05);end v333.TextTransparency=0;task.wait(1);v333:Destroy();local v387=Color3.fromRGB(0,255,100);v307.TextColor3=v387;v319.TextColor3=v387;v31(v25.Lagging,1,1.2);task.spawn(function() for v451=1,8 do v319.TextTransparency=math.random(0,8)/10 ;task.wait(0.05);end v319:Destroy();end);for v420=1,20 do v345.Position=UDim2.new(0.5,math.random( -10,10),0.4,math.random( -10,10));v345.TextTransparency=math.random(0,5)/10 ;v345.TextColor3=(((v420%2)==0) and v387) or Color3.fromRGB(255,255,255) ;v77(v387);task.wait(0.04);end v345.Position=UDim2.new(0.5,0,0.4,0);v345.TextTransparency=0;v345.TextColor3=v387;end);local v366={">> ACCESSING_ZOKA_SYSTEM...",">> CRITICAL_ERROR_DETECTED",">> FUCKING_ZACKY_MOTHER",">> BYPASSING_SECURITY...",">> WELCOME_OPERATOR"};local v367="";for v391,v392 in ipairs(v366) do v367=v367   .. v392   .. "\n" ;v307.Text=v367;v31(v25.Static,0.3,1.5);v77(v307.TextColor3);task.wait(0.6);end local v368="HARLEM IS A WAY MORE EASY WITH ZOKA LOLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL ... nah i'm stoping";for v394=1, #v368 do v357.Text=v368:sub(1,v394);if (math.random()>0.8) then v77(Color3.fromRGB(0,255,100));end task.wait(0.04);end task.wait(1.5);local v369=TweenInfo.new(0.8,Enum.EasingStyle.Linear);v2:Create(v302,v369,{BackgroundTransparency=1}):Play();v2:Create(v307,v369,{TextTransparency=1}):Play();v2:Create(v345,v369,{TextTransparency=1}):Play();v2:Create(v357,v369,{TextTransparency=1}):Play();task.wait(0.8);v302:Destroy();toggleUI();end task.spawn(startIntro);local v201=false;v1.InputBegan:Connect(function(v370,v371) if (v15 and (v370.UserInputType==Enum.UserInputType.Keyboard)) then v8=v370.KeyCode;v15=false;v31(v25.Toggle,0.5,1.5);local v425=v163:FindFirstChild("VISUALS_Grid");if v425 then for v497,v498 in pairs(v425:GetChildren()) do if (v498:IsA("TextButton") and v498.Name:find("BIND")) then v498.Text="[ ] BIND: "   .. v8.Name ;end end end return;end if  not v371 then if (v370.KeyCode==v5) then if v201 then return;end v201=true;toggleUI();task.wait(0.5);v201=false;elseif (v370.KeyCode==v8) then if v201 then return;end v201=true;v33( not v9);task.wait(0.5);v201=false;end end end);
+ ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝]];
+	local v357 = Instance.new("TextLabel", v302);
+	v357.Size = UDim2.new(1, 0, 0, 50);
+	v357.Position = UDim2.new(0, 0, 0.85, 0);
+	v357.BackgroundTransparency = 1;
+	v357.TextColor3 = Color3.fromRGB(255, 255, 255);
+	v357.Font = Enum.Font.Code;
+	v357.TextSize = 18;
+	v357.ZIndex = 2005;
+	v357.Text = "";
+	v31(v25.IntroAmbience, 0.8, 1);
+	task.delay(2, function()
+		v307.TextColor3 = Color3.fromRGB(255, 0, 50);
+		v319.TextColor3 = Color3.fromRGB(255, 0, 50);
+		v319.Visible = true;
+		v31(v25.Lagging, 1, 0.8);
+		local v385 = v2:Create(v319, TweenInfo.new(3, Enum.EasingStyle.Linear), {Position=UDim2.new(-0.6, 0, 0.65, 0)});
+		v385:Play();
+		for v417 = 1, 10 do
+			v333.Position = UDim2.new(0.5, math.random(-20, 20), 0.4, math.random(-20, 20));
+			v333.TextTransparency = math.random(0, 3) / 10;
+			v77(Color3.fromRGB(255, 0, 50));
+			task.wait(0.05);
+		end
+		v333.TextTransparency = 0;
+		task.wait(1);
+		v333:Destroy();
+		local v387 = Color3.fromRGB(0, 255, 100);
+		v307.TextColor3 = v387;
+		v319.TextColor3 = v387;
+		v31(v25.Lagging, 1, 1.2);
+		task.spawn(function()
+			for v451 = 1, 8 do
+				v319.TextTransparency = math.random(0, 8) / 10;
+				task.wait(0.05);
+			end
+			v319:Destroy();
+		end);
+		for v420 = 1, 20 do
+			v345.Position = UDim2.new(0.5, math.random(-10, 10), 0.4, math.random(-10, 10));
+			v345.TextTransparency = math.random(0, 5) / 10;
+			v345.TextColor3 = (((v420 % 2) == 0) and v387) or Color3.fromRGB(255, 255, 255);
+			v77(v387);
+			task.wait(0.04);
+		end
+		v345.Position = UDim2.new(0.5, 0, 0.4, 0);
+		v345.TextTransparency = 0;
+		v345.TextColor3 = v387;
+	end);
+	local v366 = {">> ACCESSING_ZOKA_SYSTEM...",">> CRITICAL_ERROR_DETECTED",">> FUCKING_ZACKY_MOTHER",">> BYPASSING_SECURITY...",">> WELCOME_OPERATOR"};
+	local v367 = "";
+	for v391, v392 in ipairs(v366) do
+		v367 = v367 .. v392 .. "\n";
+		v307.Text = v367;
+		v31(v25.Static, 0.3, 1.5);
+		v77(v307.TextColor3);
+		task.wait(0.6);
+	end
+	local v368 = "HARLEM IS A WAY MORE EASY WITH ZOKA LOLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL ... nah i'm stoping";
+	for v394 = 1, #v368 do
+		v357.Text = v368:sub(1, v394);
+		if (math.random() > 0.8) then
+			v77(Color3.fromRGB(0, 255, 100));
+		end
+		task.wait(0.04);
+	end
+	task.wait(1.5);
+	local v369 = TweenInfo.new(0.8, Enum.EasingStyle.Linear);
+	v2:Create(v302, v369, {BackgroundTransparency=1}):Play();
+	v2:Create(v307, v369, {TextTransparency=1}):Play();
+	v2:Create(v345, v369, {TextTransparency=1}):Play();
+	v2:Create(v357, v369, {TextTransparency=1}):Play();
+	task.wait(0.8);
+	v302:Destroy();
+	toggleUI();
+end
+task.spawn(startIntro);
+local v201 = false;
+v1.InputBegan:Connect(function(v370, v371)
+	if (v15 and (v370.UserInputType == Enum.UserInputType.Keyboard)) then
+		v8 = v370.KeyCode;
+		v15 = false;
+		v31(v25.Toggle, 0.5, 1.5);
+		local v425 = v163:FindFirstChild("VISUALS_Grid");
+		if v425 then
+			for v497, v498 in pairs(v425:GetChildren()) do
+				if (v498:IsA("TextButton") and v498.Name:find("BIND")) then
+					v498.Text = "[ ] BIND: " .. v8.Name;
+				end
+			end
+		end
+		return;
+	end
+	if not v371 then
+		if (v370.KeyCode == v5) then
+			if v201 then
+				return;
+			end
+			v201 = true;
+			toggleUI();
+			task.wait(0.5);
+			v201 = false;
+		elseif (v370.KeyCode == v8) then
+			if v201 then
+				return;
+			end
+			v201 = true;
+			v33(not v9);
+			task.wait(0.5);
+			v201 = false;
+		end
+	end
+end);
